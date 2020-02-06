@@ -1,5 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose')
+const routes = require('./routes')
 
 const app = express();
 
@@ -9,6 +10,7 @@ mongoose.connect('mongodb+srv://oguimaraes:otavio22@cluster0-cx1n7.mongodb.net/o
 });
 
 app.use(express.json()); // Cadastrar para express entenda requisições no formato json
+app.use(routes)
 
 // Métodos HTTP: GET, POST, PUT, DELETE
 
@@ -19,10 +21,5 @@ app.use(express.json()); // Cadastrar para express entenda requisições no form
 // Body: request.body (Dados para criaçao ou alteração de um registro)
 
 // MongoDB (Não-relacional)
-
-app.post('/users/:id', (request, response) => {
-    console.log(request.body);
-    return response.json({ message: 'Hello Teste'});
-})
 
 app.listen(3333);
