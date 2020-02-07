@@ -10,7 +10,7 @@ mongoose.connect('mongodb+srv://oguimaraes:otavio22@cluster0-cx1n7.mongodb.net/o
 });
 
 app.use(express.json()); // Cadastrar para express entenda requisições no formato json
-app.use(routes)
+app.use(routes);
 
 // Métodos HTTP: GET, POST, PUT, DELETE
 

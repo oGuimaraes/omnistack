@@ -1,10 +1,10 @@
 const { Router } = require('express');
+const axios = require('axios');
+const Dev = require('./models/Dev');
+const DevController = require('./controllers/DevController')
 
 const routes = Router();
 
-routes.post('/users/:id', (request, response) => {
-    console.log(request.body);
-    return response.json({ message: 'Hello Teste'});
-})
+routes.post('/devs', DevController.store);
 
 module.exports = routes;
