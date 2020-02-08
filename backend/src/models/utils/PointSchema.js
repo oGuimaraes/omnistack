@@ -9,7 +9,6 @@ const PointSchema = new moongoose.Schema({
     coordinates: {
         type: [Number],
         required: true,
-
     },
 });
 
