@@ -42,11 +42,32 @@ module.exports = {
         return response.json(dev);
     },
 
-    async destroy(request, response) {
+    async destroy (request, response) {
 
         const { id } = request.params;
 
         let dev = await Dev.deleteOne({ github_username: id });
+
+        return response.json(dev);
+    },
+
+    async update (request, response){
+
+        const { github_username, name, techs, latitude, longitude, bio} = request.body;
+
+        const query = { github_username };
+
+        const techsArray = parseStringAsArray(techs);
+
+        const updatedInfo = {
+            techs: techsArray,
+            name,
+            bio,
+            latitude,
+            longitude,                              
+        }
+
+        let dev = await Dev.findOneAndUpdate(query, updatedInfo);
 
         return response.json(dev);
     }
