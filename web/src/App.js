@@ -11,9 +11,10 @@ import './Main.css';
 // Estado: Informações mantidas pelo componente (Pesquisar: Imutabilidade)
 
 function App() {
+  const [devs, setDevs] = useState([])
+
   const [github_username, setGithubUsername] = useState('');
   const [techs, setTechs] = useState('');
-
   const [longitude, setLongitude] = useState('');
   const [latitude, setLatitude] = useState('');
 
@@ -34,6 +35,16 @@ function App() {
      )
   }, []);
 
+  useEffect(() => {
+    async function loadDevs(){
+      const response = await api.get('/devs');
+      
+      setDevs(response.data)
+    }
+
+    loadDevs();
+  }, []);
+
   async function handleAddDev(e) {
     e.preventDefault();
 
@@ -44,7 +55,9 @@ function App() {
       longitude
     })
 
-    console.log(response.data);
+    setGithubUsername('');
+    setTechs('');
+    setDevs([...devs, response.data]);
 
   }
 
@@ -106,53 +119,19 @@ function App() {
       
       <main>
         <ul>
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars1.githubusercontent.com/u/30198602?s=460&v=4" alt="Otávio Guimarães"></img>
-              <div className="user-info">
-                <strong>Otávio Guimarães</strong>
-                <span>ReactJS, Node.js, React Native</span>
-              </div>
-            </header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elit sapien, ullamcorper et elit vitae.</p>
-            <a href="https://github.com/oGuimaraes">Acessar Perfil no Github</a>
+          {devs.map(dev => (
+            <li key={dev._id} className="dev-item">
+              <header>
+                <img src={dev.avatar_url} alt="Otávio Guimarães"></img>
+                <div className="user-info">
+                  <strong>{dev.name}</strong>
+                  <span>{dev.techs.join(', ')}</span>
+                </div>
+              </header>
+              <p>{dev.bio}</p>
+              <a href={`https://github.com/${dev.github_username}`}>Acessar Perfil no Github</a>
           </li>
-
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars1.githubusercontent.com/u/30198602?s=460&v=4" alt="Otávio Guimarães"></img>
-              <div className="user-info">
-                <strong>Otávio Guimarães</strong>
-                <span>ReactJS, Node.js, React Native</span>
-              </div>
-            </header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elit sapien, ullamcorper et elit vitae.</p>
-            <a href="https://github.com/oGuimaraes">Acessar Perfil no Github</a>
-          </li>
-
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars1.githubusercontent.com/u/30198602?s=460&v=4" alt="Otávio Guimarães"></img>
-              <div className="user-info">
-                <strong>Otávio Guimarães</strong>
-                <span>ReactJS, Node.js, React Native</span>
-              </div>
-            </header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elit sapien, ullamcorper et elit vitae.</p>
-            <a href="https://github.com/oGuimaraes">Acessar Perfil no Github</a>
-          </li>
-
-          <li className="dev-item">
-            <header>
-              <img src="https://avatars1.githubusercontent.com/u/30198602?s=460&v=4" alt="Otávio Guimarães"></img>
-              <div className="user-info">
-                <strong>Otávio Guimarães</strong>
-                <span>ReactJS, Node.js, React Native</span>
-              </div>
-            </header>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris elit sapien, ullamcorper et elit vitae.</p>
-            <a href="https://github.com/oGuimaraes">Acessar Perfil no Github</a>
-          </li>
+          ))}
         </ul>
       </main>
     </div>
