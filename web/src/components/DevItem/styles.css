@@ -50,3 +50,8 @@ li.dev-item a {
 li.dev-item a:hover {
     color: #458e96;
 }
+
+li.dev-item .user-option {
+    display: flex;
+    justify-content: space-between;
+}
